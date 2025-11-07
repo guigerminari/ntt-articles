@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ntt-articles-app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      JWT_SECRET: your-secret-key-change-in-production
+      JWT_EXPIRATION: 24h
+    volumes:
+      - storage-data:/app/.storage
+    networks:
+      - ntt-network
+
+volumes:
+  storage-data:
+
+networks:
+  ntt-network:
+    driver: bridge
