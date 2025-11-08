@@ -44,7 +44,7 @@ Sistema de gerenciamento de usuários e artigos com autenticação JWT e control
 
 ### 1. Clone o repositório
 ```bash
-git clone <repository-url>
+git clone https://github.com/guigerminari/ntt-articles.git
 cd ntt-articles
 ```
 
