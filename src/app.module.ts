@@ -6,6 +6,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { StorageModule } from './infrastructure/storage/storage.module';
 import { AppController } from './app.controller';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppController } from './app.controller';
     UsersModule,
     ArticlesModule,
     PermissionsModule,
+    CategoryModule,
   ],
   controllers: [AppController],
 })

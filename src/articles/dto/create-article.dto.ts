@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateArticleDto {
   @IsString()
@@ -8,4 +8,8 @@ export class CreateArticleDto {
   @IsString()
   @IsNotEmpty()
   content: string;
+
+  @IsString()
+  @IsOptional()
+  category: string;
 }

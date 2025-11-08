@@ -15,7 +15,9 @@ export class ArticleRepository implements IArticleRepository {
 
   async create(createArticleDto: CreateArticleDto, creatorId: string): Promise<Article> {
     const article = this.repository.create({
-      ...createArticleDto,
+      title: createArticleDto.title,
+      content: createArticleDto.content,
+      category: createArticleDto.category as any,
       creatorId,
     });
     return await this.repository.save(article);
