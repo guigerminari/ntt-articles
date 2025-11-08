@@ -70,7 +70,7 @@ A aplicação estará disponível em: `http://localhost:3000`
 
 Um usuário administrador é criado automaticamente:
 - **Email**: root@ntt.com
-- **Senha**: rootpassword
+- **Senha**: admin123
 
 ## Endpoints da API
 
@@ -83,7 +83,7 @@ Content-Type: application/json
 
 {
   "email": "root@ntt.com",
-  "password": "rootpassword"
+  "password": "admin123"
 }
 
 Response:
