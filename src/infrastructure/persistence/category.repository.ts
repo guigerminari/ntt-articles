@@ -34,6 +34,13 @@ export class CategoryRepository implements ICategoryRepository {
     });
   }
 
+  async findByName(name: string): Promise<Category | null> {
+    return await this.repository.findOne({
+      where: { name },
+      relations: ['creator'],
+    });
+  }
+
   async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     await this.repository.update(id, updateCategoryDto);
     return await this.findOne(id);

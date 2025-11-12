@@ -61,6 +61,10 @@ export class UsersService {
     return user;
   }
 
+  async findMe(userId: string): Promise<User> {
+    return this.findOne(userId);
+  }
+
   async findByEmail(email: string): Promise<User> {
     return this.userRepository.findByEmail(email);
   }

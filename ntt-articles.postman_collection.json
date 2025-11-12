@@ -1,0 +1,472 @@
+{
+	"info": {
+		"_postman_id": "ntt-articles-api",
+		"name": "NTT Articles API",
+		"description": "Collection for testing NTT Articles API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"jwt_token\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"root@ntt.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login with root user (Admin permission)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						},
+						"description": "Get authenticated user information"
+					},
+					"response": []
+				},
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "List all users (Admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/00000000-0000-0000-0000-000000000010",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"00000000-0000-0000-0000-000000000010"
+							]
+						},
+						"description": "Get user by ID (Root user example)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Editor User\",\n  \"email\": \"editor@ntt.com\",\n  \"password\": \"editor123\",\n  \"permissionId\": \"00000000-0000-0000-0000-000000000002\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Create new user (Admin only). Use permission IDs:\n- Admin: 00000000-0000-0000-0000-000000000001\n- Editor: 00000000-0000-0000-0000-000000000002\n- Reader: 00000000-0000-0000-0000-000000000003"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Name\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/00000000-0000-0000-0000-000000000010",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"00000000-0000-0000-0000-000000000010"
+							]
+						},
+						"description": "Update user (Admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/USER_ID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"USER_ID"
+							]
+						},
+						"description": "Delete user (Admin only)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "List Permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/permissions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"permissions"
+							]
+						},
+						"description": "List all permissions (Admin only)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "List Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "List all categories (All authenticated users)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/categories/00000000-0000-0000-0000-000000000020",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"categories",
+								"00000000-0000-0000-0000-000000000020"
+							]
+						},
+						"description": "Get category by ID (Tecnologia category example)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Esportes\",\n  \"description\": \"Artigos sobre esportes e competições\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "Create new category (Admin and Editor only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Artigos sobre tecnologia, inovação, desenvolvimento e inteligência artificial\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/categories/00000000-0000-0000-0000-000000000020",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"categories",
+								"00000000-0000-0000-0000-000000000020"
+							]
+						},
+						"description": "Update category (Admin and Editor only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/categories/CATEGORY_ID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"categories",
+								"CATEGORY_ID"
+							]
+						},
+						"description": "Delete category (Admin and Editor only)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Articles",
+			"item": [
+				{
+					"name": "List Articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles"
+							]
+						},
+						"description": "List all articles (All authenticated users)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Article by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles/ARTICLE_ID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"ARTICLE_ID"
+							]
+						},
+						"description": "Get article by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Article",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Introdução ao NestJS\",\n  \"content\": \"NestJS é um framework progressivo para construir aplicações server-side eficientes e escaláveis em Node.js.\",\n  \"categoryId\": \"00000000-0000-0000-0000-000000000020\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/articles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles"
+							]
+						},
+						"description": "Create new article (Admin and Editor only). Use category IDs:\n- Tecnologia: 00000000-0000-0000-0000-000000000020\n- Negócios: 00000000-0000-0000-0000-000000000021\n- Geral: 00000000-0000-0000-0000-000000000022"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Article",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Introdução ao NestJS - Atualizado\",\n  \"content\": \"NestJS é um framework progressivo para construir aplicações server-side eficientes, escaláveis e testáveis em Node.js.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/articles/ARTICLE_ID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"ARTICLE_ID"
+							]
+						},
+						"description": "Update article (Admin and Editor only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Article",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles/ARTICLE_ID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"ARTICLE_ID"
+							]
+						},
+						"description": "Delete article (Admin and Editor only)"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

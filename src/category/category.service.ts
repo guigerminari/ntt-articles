@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, Inject } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ICategoryRepository, CATEGORY_REPOSITORY } from '../domain/category/category.repository.interface';
@@ -18,6 +18,12 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto, creatorId: string): Promise<Category> {
+    // Verificar se já existe categoria com esse nome
+    const existingCategory = await this.categoryRepository.findByName(createCategoryDto.name);
+    if (existingCategory) {
+      throw new ConflictException('Category name already exists');
+    }
+
     const category = await this.categoryRepository.create(createCategoryDto, creatorId);
 
     // Invalidar cache da lista
@@ -65,6 +71,14 @@ export class CategoryService {
     const exists = await this.categoryRepository.findOne(id);
     if (!exists) {
       throw new NotFoundException('Category not found');
+    }
+
+    // Verificar se o novo nome já existe (em outra categoria)
+    if (updateCategoryDto.name) {
+      const existingCategory = await this.categoryRepository.findByName(updateCategoryDto.name);
+      if (existingCategory && existingCategory.id !== id) {
+        throw new ConflictException('Category name already exists');
+      }
     }
 
     const category = await this.categoryRepository.update(id, updateCategoryDto);

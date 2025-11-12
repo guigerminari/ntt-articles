@@ -11,5 +11,5 @@ export class CreateArticleDto {
 
   @IsString()
   @IsOptional()
-  category: string;
+  category?: string;
 }

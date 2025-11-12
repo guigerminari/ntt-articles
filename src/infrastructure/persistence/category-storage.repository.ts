@@ -49,6 +49,11 @@ export class CategoryStorageRepository implements ICategoryRepository {
     return categories.find(a => a.id === id) || null;
   }
 
+  async findByName(name: string): Promise<Category | null> {
+    const categories = this.getAll();
+    return categories.find(c => c.name.toLowerCase() === name.toLowerCase()) || null;
+  }
+
   async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     const categories = this.getAll();
     const index = categories.findIndex(a => a.id === id);

@@ -19,6 +19,7 @@ describe('UsersController', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
+    findMe: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
   };
@@ -84,6 +85,29 @@ describe('UsersController', () => {
 
       expect(result).toEqual(mockUser);
       expect(service.findOne).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return a user by id', async () => {
+      mockUsersService.findOne.mockResolvedValue(mockUser);
+
+      const result = await controller.findOne('1');
+
+      expect(result).toEqual(mockUser);
+      expect(service.findOne).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('findMe', () => {
+    it('should return the current user', async () => {
+      mockUsersService.findMe.mockResolvedValue(mockUser);
+
+      const req = { user: { id: '1' } };
+      const result = await controller.findMe(req);
+
+      expect(result).toEqual(mockUser);
+      expect(service.findMe).toHaveBeenCalledWith('1');
     });
   });
 

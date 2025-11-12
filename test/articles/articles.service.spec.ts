@@ -4,10 +4,12 @@ import { Article } from '../../src/articles/entities/article.entity';
 import { NotFoundException } from '@nestjs/common';
 import { ARTICLE_REPOSITORY } from '../../src/domain/articles/article.repository.interface';
 import { STORAGE_SERVICE } from '../../src/infrastructure/storage/storage.interface';
+import { CATEGORY_REPOSITORY } from '../../src/domain/category/category.repository.interface';
 
 describe('ArticlesService', () => {
   let service: ArticlesService;
   let articleRepository: any;
+  let categoryRepository: any;
   let storageService: any;
 
   const mockArticle = {
@@ -32,6 +34,15 @@ describe('ArticlesService', () => {
     remove: jest.fn(),
   };
 
+  const mockCategoryRepository = {
+    create: jest.fn(),
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+    findByName: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+  };
+
   const mockStorageService = {
     setItem: jest.fn(),
     getItem: jest.fn(),
@@ -51,6 +62,10 @@ describe('ArticlesService', () => {
           useValue: mockArticleRepository,
         },
         {
+          provide: CATEGORY_REPOSITORY,
+          useValue: mockCategoryRepository,
+        },
+        {
           provide: STORAGE_SERVICE,
           useValue: mockStorageService,
         },
@@ -59,6 +74,7 @@ describe('ArticlesService', () => {
 
     service = module.get<ArticlesService>(ArticlesService);
     articleRepository = module.get(ARTICLE_REPOSITORY);
+    categoryRepository = module.get(CATEGORY_REPOSITORY);
     storageService = module.get(STORAGE_SERVICE);
   });
 

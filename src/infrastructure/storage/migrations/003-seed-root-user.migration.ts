@@ -1,5 +1,4 @@
 import { IStorageMigration } from './storage-migration.interface';
-import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 
 export class SeedRootUserMigration implements IStorageMigration {
@@ -17,7 +16,7 @@ export class SeedRootUserMigration implements IStorageMigration {
     const hashedPassword = await bcrypt.hash('admin123', 10);
 
     const rootUser = {
-      id: uuidv4(),
+      id: '00000000-0000-0000-0000-000000000010',
       name: 'Root Admin',
       email: 'root@ntt.com',
       password: hashedPassword,
