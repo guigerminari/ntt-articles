@@ -9,6 +9,8 @@ import {
   UseGuards,
   ClassSerializerInterceptor,
   UseInterceptors,
+  Request,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -33,6 +35,14 @@ export class UsersController {
   @RequirePermissions('Admin')
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Get('me')
+  findMe(@Request() req) {
+    if (!req.user) {
+      throw new BadRequestException('User not found');
+    }
+    return this.usersService.findMe(req.user.id);
   }
 
   @Get(':id')

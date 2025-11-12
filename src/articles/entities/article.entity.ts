@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Category } from '../../category/entities/category.entity';
 
 @Entity('articles')
 export class Article {
@@ -11,6 +12,10 @@ export class Article {
 
   @Column('text')
   content: string;
+
+  @ManyToOne(() => Category, (category) => category.articles)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 
   @ManyToOne(() => User, (user) => user.articles)
   @JoinColumn({ name: 'creatorId' })

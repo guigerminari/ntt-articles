@@ -15,6 +15,9 @@ export class CreateInitialStructureMigration implements IStorageMigration {
     if (!storage.getItem('articles')) {
       storage.setItem('articles', []);
     }
+    if (!storage.getItem('categories')) {
+      storage.setItem('categories', []);
+    }
     console.log('   Initial structure created');
   }
 
@@ -23,6 +26,7 @@ export class CreateInitialStructureMigration implements IStorageMigration {
     storage.removeItem('permissions');
     storage.removeItem('users');
     storage.removeItem('articles');
+    storage.removeItem('categories');
     console.log('   Initial structure removed');
   }
 }

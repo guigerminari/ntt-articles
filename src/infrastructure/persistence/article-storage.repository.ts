@@ -29,6 +29,7 @@ export class ArticleStorageRepository implements IArticleRepository {
     const article: Article = {
       id: uuidv4(),
       ...createArticleDto,
+      category: createArticleDto.category as any,
       creatorId,
       createdAt: new Date(),
       updatedAt: new Date(),

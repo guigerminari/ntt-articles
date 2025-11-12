@@ -4,6 +4,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
 import { IArticleRepository, ARTICLE_REPOSITORY } from '../domain/articles/article.repository.interface';
 import { IStorageService, STORAGE_SERVICE } from '../infrastructure/storage/storage.interface';
+import { CATEGORY_REPOSITORY, ICategoryRepository } from '../domain/category/category.repository.interface';
 
 @Injectable()
 export class ArticlesService {
@@ -13,11 +14,21 @@ export class ArticlesService {
   constructor(
     @Inject(ARTICLE_REPOSITORY)
     private readonly articleRepository: IArticleRepository,
+    @Inject(CATEGORY_REPOSITORY)
+    private readonly categoryRepository: ICategoryRepository,
     @Inject(STORAGE_SERVICE)
     private readonly storageService: IStorageService,
   ) {}
 
   async create(createArticleDto: CreateArticleDto, creatorId: string): Promise<Article> {
+    // Verificar se a categoria existe, se fornecida
+    if (createArticleDto.category) {
+      const categoryExists = await this.categoryRepository.findOne(createArticleDto.category);
+      if (!categoryExists) {
+      throw new NotFoundException('Category not found');
+      }
+    }
+    
     const article = await this.articleRepository.create(createArticleDto, creatorId);
     
     // Invalidar cache da lista

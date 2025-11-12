@@ -3,6 +3,7 @@ import { StorageMigrationService } from '../src/infrastructure/storage/migration
 import { CreateInitialStructureMigration } from '../src/infrastructure/storage/migrations/001-create-initial-structure.migration';
 import { SeedPermissionsMigration } from '../src/infrastructure/storage/migrations/002-seed-permissions.migration';
 import { SeedRootUserMigration } from '../src/infrastructure/storage/migrations/003-seed-root-user.migration';
+import { SeedCategoriesMigration } from '../src/infrastructure/storage/migrations/004-seed-categories.migration';
 
 async function main() {
   const storage = new LocalStorageService();
@@ -12,6 +13,7 @@ async function main() {
   migrationService.registerMigration(new CreateInitialStructureMigration());
   migrationService.registerMigration(new SeedPermissionsMigration());
   migrationService.registerMigration(new SeedRootUserMigration());
+  migrationService.registerMigration(new SeedCategoriesMigration());
 
   const command = process.argv[2];
 
